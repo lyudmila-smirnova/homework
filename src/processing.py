@@ -2,11 +2,11 @@ def filter_by_state(list_data: list, state: str = "EXECUTED") -> list:
     """Функция принимает на вход список словарей с данными о банковских операциях
     и параметр state, возвращает новый список, содержащий только те словари,
     у которых ключ state содержит переданное в функцию значение."""
-    new_list_data = []
-    for temp_dict in list_data:
-        if temp_dict["state"] == state:
-            new_list_data.append(temp_dict)
-    return new_list_data
+    filter_list_data = []
+    for transaction_data_dictionaries in list_data:
+        if transaction_data_dictionaries["state"] == state:
+            filter_list_data.append(transaction_data_dictionaries)
+    return filter_list_data
 
 
 list_data = [
