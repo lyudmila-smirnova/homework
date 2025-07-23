@@ -59,4 +59,3 @@ def test_invalid_accounts() -> None:
 def test_parametrized_account_masking(account: str, expected: str) -> None:
     """Параметризованный тест для разных форматов счетов"""
     assert get_mask_account(account) == expected
-
