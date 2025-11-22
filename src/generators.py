@@ -36,3 +36,27 @@ transactions = [
 
 usd_transactions = filter_by_currency(transactions, "USD")
 print(usd_transactions)
+
+
+def transaction_descriptions(transactions: list[dict]) -> str:
+    """Генератор transaction_descriptions,
+    который принимает список словарей с транзакциями
+    и возвращает описание каждой операции по очереди"""
+    for transaction in transactions:
+        from_acc = transaction.get('from', '').lower()
+        to_acc = transaction.get('to', '').lower()
+
+        if 'организация' in from_acc or 'организация' in to_acc:
+            yield 'Перевод организации'
+        elif 'счет' in from_acc and 'счет' in to_acc:
+            yield 'Перевод со счета на счет'
+        elif 'карт' in from_acc and 'карт' in to_acc:
+            yield 'Перевод с карты на карту'
+        else:
+            yield 'Перевод'
+
+
+
+descriptions = transaction_descriptions(transactions)
+for _ in range(3):
+    print(next(descriptions))
