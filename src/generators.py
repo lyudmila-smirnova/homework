@@ -1,3 +1,5 @@
+from typing import Generator
+
 def filter_by_currency(transactions: list[dict], currency_code: str) -> list[dict]:
     """Функция фильтрует транзакции по заданной валюте."""
     result = []
@@ -56,7 +58,19 @@ def transaction_descriptions(transactions: list[dict]) -> str:
             yield 'Перевод'
 
 
-
 descriptions = transaction_descriptions(transactions)
 for _ in range(3):
     print(next(descriptions))
+
+
+def card_number_generator(start: int, end: int) -> Generator[str, None, None]:
+    """Генератор, который выдает номера банковских карт в формате XXXX XXXX XXXX XXXX,
+    где X— цифра номера карты."""
+    for number in range(start, end + 1):
+        card_str = f"{number:016d}"  # Форматируем как 16-значное число с нулями
+        yield f"{card_str[:4]} {card_str[4:8]} {card_str[8:12]} {card_str[12:16]}"
+
+
+result = card_number_generator(1, 5)
+print(type(result))  # <class 'generator'>
+print(result)
