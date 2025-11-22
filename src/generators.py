@@ -1,13 +1,11 @@
 from typing import Generator
 
-def filter_by_currency(transactions: list[dict], currency_code: str) -> list[dict]:
+def filter_by_currency(transactions: list[dict], currency_code: str):
     """Функция фильтрует транзакции по заданной валюте."""
-    result = []
     for i in range(len(transactions)):
         transaction = transactions[i]
         if transaction.get('operationAmount', {}).get('currency', {}).get('code') == currency_code:
-            result.append(transaction)
-    return result
+            yield transaction
 
 
 transactions = [
@@ -37,7 +35,11 @@ transactions = [
 ]
 
 usd_transactions = filter_by_currency(transactions, "USD")
-print(usd_transactions)
+print(type(usd_transactions))  # <class 'generator'>
+
+# Использование как в условии задачи
+for _ in range(1):
+    print(next(usd_transactions))
 
 
 def transaction_descriptions(transactions: list[dict]) -> str:
