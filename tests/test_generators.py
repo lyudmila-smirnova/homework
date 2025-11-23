@@ -67,3 +67,49 @@ def test_filter_by_currency_returns_generator(sample_transactions):
     assert not isinstance(result, list)
 
 
+# тесты для transaction_descriptions
+@pytest.fixture
+def mixed_transactions():
+    """Фикстура с транзакциями разных типов"""
+    return [
+        # Перевод организации
+        {
+            "id": 1,
+            "from": "Организация Рога и копыта",
+            "to": "счет 1234567890"
+        },
+        # Перевод со счета на счет
+        {
+            "id": 2,
+            "from": "счет 1111111111",
+            "to": "счет 2222222222"
+        },
+        # Обычный перевод (без специфических признаков)
+        {
+            "id": 3,
+            "from": "неизвестный отправитель",
+            "to": "неизвестный получатель"
+        }
+    ]
+
+@pytest.mark.parametrize("transaction_index, expected_description", [
+    (0, "Перевод организации"),      # Первая транзакция - организация
+    (1, "Перевод со счета на счет"), # Вторая - счет на счет
+    (2, "Перевод")                   # Третья - обычный перевод
+])
+def test_transaction_descriptions_parametrized(mixed_transactions, transaction_index, expected_description):
+    """Тест 1: Параметризованная проверка правильности описаний"""
+    descriptions = list(transaction_descriptions([mixed_transactions[transaction_index]]))
+    assert descriptions[0] == expected_description
+
+def test_transaction_descriptions_empty_list(empty_transactions):
+    """Тест 2: Проверяем работу с пустым списком"""
+    result = list(transaction_descriptions(empty_transactions))
+    assert result == []
+
+def test_transaction_descriptions_returns_generator(mixed_transactions):
+    """Тест 3: Проверяем, что функция возвращает генератор"""
+    result = transaction_descriptions(mixed_transactions)
+    assert hasattr(result, '__iter__')
+    assert not isinstance(result, list)
+
