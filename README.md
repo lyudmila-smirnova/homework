@@ -28,14 +28,15 @@ pip install -r requirements.txt
 ### Структура тестов:
 
 tests/
-├── conftest.py          # Фикстуры с тестовыми данными
-├── test_processing.py   # Тесты модуля обработки данных
-├── test_masks.py        # Тесты масок карт/счетов
-└── test_widget.py       # Тесты виджетов
+├── conftest.py  # Фикстуры с тестовыми данными
+├── test_processing.py # Тесты модуля обработки данных
+├── test_masks.py # Тесты масок карт/счетов
+├── test_widget.py # Тесты виджетов
+└── test_generators.py # Тесты функций-генераторов
 
 ### Покрытие кода:
 
-http://localhost:63342/main.py/htmlcov/index.html
+http://localhost:63342/main.py/htmlcov/index.html?_ijt=ge3a944j8ncescq1jrtlq40qlg&_ij_reload=RELOAD_ON_SAVE
 
 ### Тестируемые модули
 
@@ -50,6 +51,11 @@ http://localhost:63342/main.py/htmlcov/index.html
 3. Обработка данных (processing.py):
 3.1. Фильтрация операций по статусу (filter_by_state())
 3.2. Сортировка операций по дате (sort_by_date())
+
+4. Генераторы (generators.py):
+4.1. Фильтрация транзакций (filter_by_currency())
+4.2. Определение типа перевода (transaction_descriptions())
+4.3. Генерирование номеров карт и вывод в определенном формате (card_number_generator())
 
 ## Документация:
 

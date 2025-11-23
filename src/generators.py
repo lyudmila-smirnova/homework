@@ -1,44 +1,28 @@
 from typing import Generator
 
+transactions = [
+    {"id": 939719570, "operationAmount": {"amount": "9824.07", "currency": {"code": "USD"}}},
+    {"id": 142264268, "operationAmount": {"amount": "79114.93", "currency": {"code": "RUB"}}},
+    {
+        "id": 873106923,
+        "operationAmount": {"amount": "43318.34", "currency": {"code": "RUB"}},
+        "from": "счет 12345678901234567890",
+        "to": "счет 98765432109876543210",
+    },
+]
+
+
 def filter_by_currency(transactions: list[dict], currency_code: str):
     """Функция фильтрует транзакции по заданной валюте."""
     for i in range(len(transactions)):
         transaction = transactions[i]
-        if transaction.get('operationAmount', {}).get('currency', {}).get('code') == currency_code:
+        if transaction.get("operationAmount", {}).get("currency", {}).get("code") == currency_code:
             yield transaction
-
-
-transactions = [
-    {
-        "id": 939719570,
-        "operationAmount": {
-            "amount": "9824.07",
-            "currency": {"code": "USD"}
-        }
-    },
-    {
-        "id": 142264268,
-        "operationAmount": {
-            "amount": "79114.93",
-            "currency": {"code": "RUB"}
-        }
-    },
-    {
-        "id": 873106923,
-        "operationAmount": {
-            "amount": "43318.34",
-            "currency": {"code": "RUB"}
-        },
-        "from": "счет 12345678901234567890",
-        "to": "счет 98765432109876543210"
-    }
-]
 
 
 usd_transactions = filter_by_currency(transactions, "USD")
 print(type(usd_transactions))  # <class 'generator'>
 
-# Использование как в условии задачи
 for _ in range(1):
     print(next(usd_transactions))
 
@@ -48,17 +32,17 @@ def transaction_descriptions(transactions: list[dict]) -> str:
     который принимает список словарей с транзакциями
     и возвращает описание каждой операции по очереди"""
     for transaction in transactions:
-        from_acc = transaction.get('from', '').lower()
-        to_acc = transaction.get('to', '').lower()
+        from_acc = transaction.get("from", "").lower()
+        to_acc = transaction.get("to", "").lower()
 
-        if 'организация' in from_acc or 'организация' in to_acc:
-            yield 'Перевод организации'
-        elif 'счет' in from_acc and 'счет' in to_acc:
-            yield 'Перевод со счета на счет'
-        elif 'карт' in from_acc and 'карт' in to_acc:
-            yield 'Перевод с карты на карту'
+        if "организация" in from_acc or "организация" in to_acc:
+            yield "Перевод организации"
+        elif "счет" in from_acc and "счет" in to_acc:
+            yield "Перевод со счета на счет"
+        elif "карт" in from_acc and "карт" in to_acc:
+            yield "Перевод с карты на карту"
         else:
-            yield 'Перевод'
+            yield "Перевод"
 
 
 descriptions = transaction_descriptions(transactions)
