@@ -113,3 +113,36 @@ def test_transaction_descriptions_returns_generator(mixed_transactions):
     assert hasattr(result, '__iter__')
     assert not isinstance(result, list)
 
+
+# тесты для card_number_generator
+@pytest.mark.parametrize("start, stop, expected_results", [
+    # Простые последовательные номера
+    (1, 3, ["0000 0000 0000 0001", "0000 0000 0000 0002", "0000 0000 0000 0003"]),
+    # Один номер
+    (5, 5, ["0000 0000 0000 0005"]),
+    # Большие числа для проверки форматирования
+    (1234567890123456, 1234567890123456, ["1234 5678 9012 3456"]),
+    # Нулевые значения
+    (0, 1, ["0000 0000 0000 0000", "0000 0000 0000 0001"]),
+])
+def test_card_number_generator_parametrized(start, stop, expected_results):
+    """Тест 1: Параметризованная проверка генерации номеров карт"""
+    result = list(card_number_generator(start, stop))
+    assert result == expected_results
+
+@pytest.mark.parametrize("card_number, expected_format", [
+    (0, "0000 0000 0000 0000"),
+    (9999999999999999, "9999 9999 9999 9999"),
+    (1234567812345678, "1234 5678 1234 5678"),
+])
+def test_card_number_generator_formatting(card_number, expected_format):
+    """Тест 2: Проверяем правильность форматирования"""
+    result = list(card_number_generator(card_number, card_number))
+    assert result[0] == expected_format
+
+def test_card_number_generator_returns_generator():
+    """Тест 3: Проверяем, что функция возвращает генератор"""
+    result = card_number_generator(1, 5)
+    assert hasattr(result, '__iter__')
+    assert not isinstance(result, list)
+
