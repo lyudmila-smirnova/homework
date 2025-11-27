@@ -38,3 +38,26 @@ def test_log_to_console_error(capsys):
     assert "ZeroDivisionError" in captured.out
     assert "Inputs: (10, 0)" in captured.out
 
+
+def test_log_to_file_success():
+    """Тест 3: Успешное выполнение функции с записью в файл"""
+
+    @log(filename="test.txt")
+    def multiply(x, y):
+        return x * y
+
+    result = multiply(4, 5)
+
+    # Проверяем что файл создался
+    assert os.path.exists("test.txt")
+
+    # Читаем что записалось в файл
+    with open("test.txt", "r") as f:
+        content = f.read()
+
+    assert "multiply ok" in content
+    assert result == 20
+
+    # Удаляем тестовый файл
+    os.remove("test.txt")
+
