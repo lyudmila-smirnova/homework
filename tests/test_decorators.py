@@ -61,3 +61,28 @@ def test_log_to_file_success():
     # Удаляем тестовый файл
     os.remove("test.txt")
 
+
+def test_log_to_file_error():
+    """Тест 4: Ошибка в функции с записью в файл"""
+
+    @log(filename="error.txt")
+    def faulty_func():
+        raise ValueError("Ошибка!")
+
+    try:
+        faulty_func()
+    except ValueError:
+        pass
+
+    # Проверяем запись ошибки в файл
+    assert os.path.exists("error.txt")
+
+    with open("error.txt", "r") as f:
+        content = f.read()
+
+    assert "faulty_func error" in content
+    assert "ValueError" in content
+
+    # Удаляем тестовый файл
+    os.remove("error.txt")
+
