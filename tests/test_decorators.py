@@ -1,5 +1,7 @@
-import pytest
 import os
+
+import pytest
+
 from src.decorators import log
 
 
@@ -85,4 +87,3 @@ def test_log_to_file_error():
 
     # Удаляем тестовый файл
     os.remove("error.txt")
-

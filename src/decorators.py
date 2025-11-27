@@ -11,17 +11,17 @@ def log(filename=None):
         def wrapper(*args, **kwargs):
             """Обертка функции для добавления логирования."""
             try:
-                result = func(*args, **kwargs)   # Выполняем функцию
+                result = func(*args, **kwargs)  # Выполняем функцию
                 message = f"{func.__name__} ok"  # Логируем успешное выполнение
 
             except Exception as e:
-                message = f"{func.__name__} error: {type(e).__name__}. Inputs: {args}, {kwargs}" # Логируем ошибку
+                message = f"{func.__name__} error: {type(e).__name__}. Inputs: {args}, {kwargs}"  # Логируем ошибку
                 raise e
             finally:
                 # Записываем лог в файл или консоль
                 if filename:
-                    with open(filename, 'a', encoding='utf-8') as f:
-                        f.write(message + '\n')
+                    with open(filename, "a", encoding="utf-8") as f:
+                        f.write(message + "\n")
                 else:
                     print(message)
 
